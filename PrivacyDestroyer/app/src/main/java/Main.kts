@@ -22,9 +22,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         // initialize SDK (replace with your publishable API key)
-        Radar.initialize("prj_test_pk_...")
+        Radar.initialize("prj_live_pk_48791b61f1828d55a36fc366ad36e9bfd2f5bc32")
 
-        // todo in steps 3 and 4
+        Radar.trackOnce { status, location, events, user ->
+            user?.geofences?.forEach { geofence ->
+                if (geofence.tag == "cucampus") {
+                    // user is on campus, unlock feature
+                } else if (geofence.tag == "cueast") {
+
+                } else if (geofence.tag == "cubiotech") {
+
+                }
+            }
+        }
+    }
+
+    fun sendLocation() {
+        val url = URL("http://34.67.200.122:5000/")
+
+        with(url.openConnection() as HttpURLConnection) {
+            requestMethod = "POST"  // optional default is GET
+
+            println("\nSent location to URL : $url; Response Code : $responseCode")
+
+            inputStream.bufferedReader().use {
+                it.lines().forEach { line ->
+                    println(line)
+                }
+            }
+        }
     }
 
 }
