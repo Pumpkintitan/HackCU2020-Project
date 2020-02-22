@@ -1,7 +1,8 @@
 import discord
 
 client = discord.Client()
-bot_token = 'NjgwODg2ODU5Njg5MDk5Mjg1.XlGbyg.nFWrle-fOAGRU9F4dvfZuJD43IM'
+auth_file = open("auth", "r")
+bot_token = auth_file.read()
 
 
 @client.event
