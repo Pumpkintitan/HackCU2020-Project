@@ -18,5 +18,20 @@
 	<string>1</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>"This app always tracks your location to give you accurate location reporting on twitter."</string>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>"This app always tracks your location to give you accurate location reporting on twitter."</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>"This app always tracks your location to give you accurate location reporting on twitter."</string>
+
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>fetch</string>
+      <string>location</string>
+    </array>
 </dict>
 </plist>
