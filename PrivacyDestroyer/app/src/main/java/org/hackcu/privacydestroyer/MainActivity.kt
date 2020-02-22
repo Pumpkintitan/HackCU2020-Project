@@ -7,12 +7,13 @@ import android.Manifest
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import io.radar.sdk.Radar
+import io.radar.sdk.RadarTrackingOptions
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        // setContentView(Radar.layout.activity_main)
 
         // request permissions
         if (Build.VERSION.SDK_INT >= 23) {
@@ -29,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         // start tracking
         val trackingOptions: RadarTrackingOptions = RadarTrackingOptions.Builder()
-                .priority(RadarTrackingPriority.RESPONSIVENESS)
-                .offline(RadarTrackingOffline.REPLAY_STOPPED)
-                .sync(RadarTrackingSync.ALL)
+                .priority(Radar.RadarTrackingPriority.RESPONSIVENESS)
+                .offline(Radar.RadarTrackingOffline.REPLAY_STOPPED)
+                .sync(Radar.RadarTrackingSync.ALL)
                 .build()
         Radar.startTracking(trackingOptions)
     }
