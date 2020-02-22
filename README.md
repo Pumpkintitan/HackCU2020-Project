@@ -1,7 +1,2 @@
-# HackCU2020-Project
-2 Henrys, 1 Abdul, and a jake
-Ninjahasnoballs
-
-#Ok, now this is epic
-# CBT Simulator
-Does this work?
+# HackCU2020-Project (Privacy Destroyer)
+Twitter bot that tweets location info every muinute or so
