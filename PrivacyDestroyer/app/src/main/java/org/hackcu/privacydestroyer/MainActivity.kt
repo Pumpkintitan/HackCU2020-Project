@@ -1,27 +1,55 @@
 package org.hackcu.privacydestroyer
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-
 import android.Manifest
+import android.content.IntentFilter
 import android.os.Build
+import android.os.Bundle
+import android.os.HandlerThread
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import io.radar.sdk.Radar
 import io.radar.sdk.RadarTrackingOptions
 
 class MainActivity : AppCompatActivity() {
+    var queue: RequestQueue? = null
+    val rinst = Receiver()
+    var textView: TextView? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(Radar.layout.activity_main)
+        queue = Volley.newRequestQueue(this)
+        setContentView(R.layout.activity_main)
+        val linearLayout = LinearLayout(this)
+        linearLayout.orientation = LinearLayout.VERTICAL
+        textView = TextView(this)
+        textView?.text = "Oh boy!"
+        linearLayout.addView(textView)
+
+        registerReceiver(rinst, IntentFilter("io.radar.sdk.RECEIVED"))
+        rinst.setActivity(this)
 
         // request permissions
         if (Build.VERSION.SDK_INT >= 23) {
             val requestCode = 0
             if (Build.VERSION.SDK_INT >= 29) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION), requestCode)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    ),
+                    requestCode
+                )
             } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requestCode)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    requestCode
+                )
             }
         }
 
@@ -30,11 +58,17 @@ class MainActivity : AppCompatActivity() {
 
         // start tracking
         val trackingOptions: RadarTrackingOptions = RadarTrackingOptions.Builder()
-                .priority(Radar.RadarTrackingPriority.RESPONSIVENESS)
-                .offline(Radar.RadarTrackingOffline.REPLAY_STOPPED)
-                .sync(Radar.RadarTrackingSync.ALL)
-                .build()
+            .priority(Radar.RadarTrackingPriority.RESPONSIVENESS)
+            .offline(Radar.RadarTrackingOffline.REPLAY_STOPPED)
+            .sync(Radar.RadarTrackingSync.ALL)
+            .build()
         Radar.startTracking(trackingOptions)
+        Updater(this).start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(rinst)
     }
 
 }

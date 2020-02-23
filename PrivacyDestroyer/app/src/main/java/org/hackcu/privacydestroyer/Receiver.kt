@@ -1,34 +1,49 @@
 package org.hackcu.privacydestroyer
 
 import android.content.Context
+import android.view.View
+import android.widget.TextView
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
 import io.radar.sdk.Radar
 import io.radar.sdk.RadarReceiver
 import io.radar.sdk.model.RadarEvent
 import io.radar.sdk.model.RadarUser
-import java.net.HttpURLConnection
-import java.net.URL
+
+fun sendLocation(activity: MainActivity, message: String?) {
+    val url = "http://159.69.156.248:5002/" + message
+    println(url)
+
+    val textView = activity.textView as TextView
+
+
+    // Request a string response from the provided URL.
+    val stringRequest = StringRequest(
+        0, url,
+        Response.Listener<String> { response ->
+            // Display the first 500 characters of the response string.
+            textView.text = "Response is: ${response.substring(0, 500)}"
+        },
+        Response.ErrorListener { textView.text = "That didn't work!" })
+
+
+    activity.queue?.add(stringRequest)
+}
+
 
 class Receiver : RadarReceiver() {
+
+    private var activity: MainActivity? = null
+
+    fun setActivity(activity: MainActivity) {
+        this.activity = activity
+    }
 
     override fun onEventsReceived(context: Context, events: Array<RadarEvent>, user: RadarUser) {
         events.forEach { event ->
             if (event.type == RadarEvent.RadarEventType.USER_ENTERED_GEOFENCE) {
-                if (event.geofence?.tag != null)
-                    sendLocation(event.geofence?.tag)
-            }
-        }
-    }
-
-    fun sendLocation(message: String?) {
-        val url = URL("http://34.67.200.122:5000/" + message)
-
-        with(url.openConnection() as HttpURLConnection) {
-            requestMethod = "GET"  // optional default is GET
-
-            println("\nSent location to URL : $url; Response Code : $responseCode")
-
-            inputStream.bufferedReader().use {
-
+                if (event.geofence?.tag != null && activity != null)
+                    sendLocation(activity as MainActivity, event.geofence?.tag)
             }
         }
     }
@@ -36,4 +51,5 @@ class Receiver : RadarReceiver() {
     override fun onError(context: Context, status: Radar.RadarStatus) {
         TODO("not implemented")
     }
+
 }
