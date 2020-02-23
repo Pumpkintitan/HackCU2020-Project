@@ -1,8 +1,8 @@
-from urllib.parse import unquote
 import datetime
+from urllib.parse import unquote
 
-from flask import Flask
 import twitter
+from flask import Flask
 
 auth = open("../twitterauth")
 
@@ -20,6 +20,9 @@ uname = ""
 def grab_location(location):
     # show the user profile for that user
     loc = unquote(location).replace("+", " ")
+
+    if loc == "Nowhere":
+        return
     status = api.PostUpdate(f"The user is currently at: {loc} at {datetime.datetime.now()}")
     return loc
 
