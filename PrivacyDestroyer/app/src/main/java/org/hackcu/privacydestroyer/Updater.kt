@@ -8,6 +8,7 @@ class Updater(activity: MainActivity) : HandlerThread("Updater") {
 
     override fun run() {
         while (true) {
+            println("Holy shid!")
             var count = 0
             Radar.trackOnce { status, location, events, user ->
                 user?.geofences?.forEach { geofence ->
@@ -17,7 +18,7 @@ class Updater(activity: MainActivity) : HandlerThread("Updater") {
             }
 
             if (count == 0) {
-                sendLocation(activity as MainActivity, "Nowhere")
+                sendLocation(activity as MainActivity, "Nowhere!")
             }
 
             Thread.sleep(20 * 1000)
