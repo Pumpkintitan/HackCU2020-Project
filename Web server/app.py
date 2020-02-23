@@ -1,5 +1,7 @@
+from urllib.parse import unquote
+import datetime
+
 from flask import Flask
-from markupsafe import escape
 import twitter
 
 auth = open("../twitterauth")
@@ -17,8 +19,9 @@ uname = ""
 @app.route('/<location>')
 def grab_location(location):
     # show the user profile for that user
-    status = api.PostUpdate("The user is currently at: ", location)
-    return '%s' % escape(location)
+    loc = unquote(location).replace("+", " ")
+    status = api.PostUpdate(f"The user is currently at: {loc} at {datetime.datetime.now()}")
+    return loc
 
 
 app.run(host="0.0.0.0", port=5002)
