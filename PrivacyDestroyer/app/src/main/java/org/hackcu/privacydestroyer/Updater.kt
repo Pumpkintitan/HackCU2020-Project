@@ -17,7 +17,7 @@ class Updater(activity: MainActivity) : HandlerThread("Updater") {
             }
 
             if (count == 0) {
-                sendLocation(activity as MainActivity, "Nowhere!")
+                sendLocation(activity as MainActivity, "Nowhere")
             }
 
             Thread.sleep(20 * 1000)
