@@ -9,9 +9,9 @@ def hello_world():
     return 'Hello, World!'
 
 
-@app.route('/user/<username>')
+@app.route('/<username>')
 def show_user_profile(username):
     # show the user profile for that user
-    return 'User %s' % escape(username)
+    return '%s' % escape(username)
 
 app.run(host="0.0.0.0")
