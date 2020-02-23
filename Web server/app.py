@@ -14,4 +14,4 @@ def show_user_profile(username):
     # show the user profile for that user
     return '%s' % escape(username)
 
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", port=5002)
