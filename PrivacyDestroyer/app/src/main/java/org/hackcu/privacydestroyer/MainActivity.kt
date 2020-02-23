@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.os.HandlerThread
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,17 +16,14 @@ import io.radar.sdk.RadarTrackingOptions
 class MainActivity : AppCompatActivity() {
     var queue: RequestQueue? = null
     val rinst = Receiver()
-    var textView: TextView? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        queue = Volley.newRequestQueue(this)
+        queue = Volley.newRequestQueue(this).apply {
+            start()
+        }
         setContentView(R.layout.activity_main)
         val linearLayout = LinearLayout(this)
-        linearLayout.orientation = LinearLayout.VERTICAL
-        textView = TextView(this)
-        textView?.text = "Oh boy!"
-        linearLayout.addView(textView)
 
         registerReceiver(rinst, IntentFilter("io.radar.sdk.RECEIVED"))
         rinst.setActivity(this)
@@ -40,14 +36,15 @@ class MainActivity : AppCompatActivity() {
                     this,
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                        Manifest.permission.INTERNET
                     ),
                     requestCode
                 )
             } else {
                 ActivityCompat.requestPermissions(
                     this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET),
                     requestCode
                 )
             }
