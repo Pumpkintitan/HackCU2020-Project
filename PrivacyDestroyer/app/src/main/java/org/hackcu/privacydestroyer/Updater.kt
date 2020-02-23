@@ -8,7 +8,6 @@ class Updater(activity: MainActivity) : HandlerThread("Updater") {
 
     override fun run() {
         while (true) {
-            println("Holy shid!")
             var count = 0
             Radar.trackOnce { status, location, events, user ->
                 user?.geofences?.forEach { geofence ->
