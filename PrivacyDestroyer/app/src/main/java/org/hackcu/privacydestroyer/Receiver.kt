@@ -1,7 +1,6 @@
 package org.hackcu.privacydestroyer
 
 import android.content.Context
-import android.view.View
 import android.widget.TextView
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -15,8 +14,7 @@ fun sendLocation(activity: MainActivity, message: String?) {
     val url = "http://159.69.156.248:5002/" + message
     println(url)
 
-    val textView = activity.findViewById<TextView>(R.id.text)
-
+    val textView = activity.findViewById<TextView>(R.id.text) ?: return
 
     // Request a string response from the provided URL.
     val stringRequest = StringRequest(
@@ -30,6 +28,7 @@ fun sendLocation(activity: MainActivity, message: String?) {
 
 
     (activity.queue as RequestQueue).add(stringRequest)
+    activity.queue?.start()
 }
 
 

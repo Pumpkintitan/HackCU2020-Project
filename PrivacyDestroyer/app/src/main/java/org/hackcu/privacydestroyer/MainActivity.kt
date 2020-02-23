@@ -19,11 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        queue = Volley.newRequestQueue(this).apply {
-            start()
-        }
+        queue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)
-        val linearLayout = LinearLayout(this)
 
         registerReceiver(rinst, IntentFilter("io.radar.sdk.RECEIVED"))
         rinst.setActivity(this)
