@@ -1,6 +1,7 @@
 package org.hackcu.privacydestroyer
 
 import android.content.Context
+import android.util.Log
 import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -26,6 +27,7 @@ fun sendLocation(activity: MainActivity, message: String?) {
             //textView.text = "Response is: ${response.substring(0, 500)}"
         },
         Response.ErrorListener {
+            error -> Log.e("Volley Error", error.toString())
             println("Error!")
             //textView.text = "That didn't work!"
         })
