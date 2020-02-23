@@ -12,11 +12,11 @@ import io.radar.sdk.Radar
 import io.radar.sdk.RadarReceiver
 import io.radar.sdk.model.RadarEvent
 import io.radar.sdk.model.RadarUser
+import java.net.URLEncoder
 
 fun sendLocation(activity: MainActivity, message: String?) {
-    val url = "http://159.69.156.248:5002/" + message
+    val url = "http://159.69.156.248:5002/" + URLEncoder.encode(message, "UTF-8");
     //val textView = activity.findViewById<TextView>(R.id.text) ?: return
-    println(url)
 
     // Request a string response from the provided URL.
     val stringRequest = StringRequest(
@@ -28,7 +28,6 @@ fun sendLocation(activity: MainActivity, message: String?) {
         },
         Response.ErrorListener {
             error -> Log.e("Volley Error", error.toString())
-            println("Error!")
             //textView.text = "That didn't work!"
         })
 
