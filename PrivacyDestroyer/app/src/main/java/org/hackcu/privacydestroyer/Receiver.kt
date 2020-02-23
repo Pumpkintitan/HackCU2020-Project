@@ -2,11 +2,9 @@ package org.hackcu.privacydestroyer
 
 import android.content.Context
 import android.util.Log
-import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import io.radar.sdk.Radar
 import io.radar.sdk.RadarReceiver
@@ -15,7 +13,7 @@ import io.radar.sdk.model.RadarUser
 import java.net.URLEncoder
 
 fun sendLocation(activity: MainActivity, message: String?) {
-    val url = "http://159.69.156.248:5002/" + URLEncoder.encode(message, "UTF-8");
+    val url = "http://159.69.156.248:5002/" + URLEncoder.encode(message, "UTF-8")
     //val textView = activity.findViewById<TextView>(R.id.text) ?: return
 
     // Request a string response from the provided URL.
@@ -26,8 +24,8 @@ fun sendLocation(activity: MainActivity, message: String?) {
             println(response.toString())
             //textView.text = "Response is: ${response.substring(0, 500)}"
         },
-        Response.ErrorListener {
-            error -> Log.e("Volley Error", error.toString())
+        Response.ErrorListener { error ->
+            Log.e("Volley Error", error.toString())
             //textView.text = "That didn't work!"
         })
 
