@@ -4,12 +4,12 @@ import android.Manifest
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
+import com.android.volley.Response
+import com.android.volley.toolbox.*
 import io.radar.sdk.Radar
 import io.radar.sdk.RadarTrackingOptions
 
@@ -24,6 +24,15 @@ class MainActivity : AppCompatActivity() {
 
         registerReceiver(rinst, IntentFilter("io.radar.sdk.RECEIVED"))
         rinst.setActivity(this)
+
+        // Instantiate the cache
+        val cache = DiskBasedCache(cacheDir, 1024 * 1024) // 1MB cap
+
+        // Set up the network to use HttpURLConnection as the HTTP client.
+        val network = BasicNetwork(HurlStack())
+
+        // Instantiate the RequestQueue with the cache and network. Start the queue.
+        queue = RequestQueue(cache, network)
 
         // request permissions
         if (Build.VERSION.SDK_INT >= 23) {
@@ -57,6 +66,8 @@ class MainActivity : AppCompatActivity() {
             .sync(Radar.RadarTrackingSync.ALL)
             .build()
         Radar.startTracking(trackingOptions)
+        println("Wholly frick")
+        queue?.start()
         Updater(this).start()
     }
 
