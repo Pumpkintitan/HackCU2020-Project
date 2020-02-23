@@ -13,3 +13,5 @@ def hello_world():
 def show_user_profile(username):
     # show the user profile for that user
     return 'User %s' % escape(username)
+
+app.run(host="0.0.0.0")
